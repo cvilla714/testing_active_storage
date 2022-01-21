@@ -1,16 +1,18 @@
 class PeopleController < ApplicationController
-  before_action :set_person, only: [:show, :update, :destroy]
+  before_action :set_person, only: %i[show update destroy]
 
   # GET /people
   def index
     @people = Person.all
-
-    render json: @people
+    result = @people.map do |person|
+      { person: person, image: person.avatar_image_url }
+    end
+    render json: result
   end
 
   # GET /people/1
   def show
-    render json: @person
+    render json: { person: @person, image: @person.avatar_image_url }
   end
 
   # POST /people
@@ -18,7 +20,7 @@ class PeopleController < ApplicationController
     @person = Person.new(person_params)
 
     if @person.save
-      render json: @person, status: :created, location: @person
+      render json: { person: @person, image: @person.avatar_image_url }
     else
       render json: @person.errors, status: :unprocessable_entity
     end
@@ -39,13 +41,14 @@ class PeopleController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_person
-      @person = Person.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def person_params
-      params.require(:person).permit(:name, :email)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_person
+    @person = Person.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def person_params
+    params.require(:person).permit(:name, :email, :avatar)
+  end
 end
