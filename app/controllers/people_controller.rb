@@ -7,7 +7,7 @@ class PeopleController < ApplicationController
   def index
     @people = Person.all
     result = @people.map do |person|
-      { person: person, image: person.avatar_image_url }
+      { person:, image: person.avatar_image_url }
     end
     render json: result
   end
