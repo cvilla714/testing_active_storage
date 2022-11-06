@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Person < ApplicationRecord
   include Rails.application.routes.url_helpers
   has_one_attached :avatar

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.default_url_options = { host: ENV['DEVELOPMENT_HOST_URL'] }
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
